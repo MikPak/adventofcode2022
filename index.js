@@ -20,8 +20,6 @@ const day1 = () => {
       current = 0
     }
   })
-  //console.log(Math.max.apply(Math, totals))
-
   // Part 2
   totals.sort((a, b) => {
     return a - b;
@@ -68,31 +66,81 @@ const day2 = () => {
   let enemyPts = 0
   let playerPts = 0
 
+  const figurePlayerHand = (playerHand, enemyHand) => {
+    const shouldEndIn = shouldEndTurnIn[playerHand]
+    console.log(`Should end turn: ${shouldEndIn}`)
+    const enemyRock = types.rock.includes(enemyHand)
+    const enemyPaper = types.paper.includes(enemyHand)
+    const enemyScissors = types.scissors.includes(enemyHand)
+    switch (shouldEndIn) {
+      case 'LOSE':
+        if(enemyRock) {
+          enemyPts += enemy[enemyHand] + match.win
+          playerPts += player.Z
+        }
+        if(enemyPaper) {
+          enemyPts += enemy[enemyHand] + match.win
+          playerPts += player.X
+        }
+        if(enemyScissors) {
+          enemyPts += enemy[enemyHand] + match.win
+          playerPts += player.Y
+        }
+        break
+      case 'WIN':
+        if(enemyRock) {
+          enemyPts += enemy[enemyHand]
+          playerPts += player.Y + match.win
+        }
+        if(enemyPaper) {
+          enemyPts += enemy[enemyHand]
+          playerPts += player.Z + match.win
+        }
+        if(enemyScissors) {
+          enemyPts += enemy[enemyHand]
+          playerPts += player.X + match.win
+        }
+        break
+      case 'DRAW':
+        if(enemyRock) {
+          enemyPts += enemy[enemyHand] + match.draw
+          playerPts += player.X + match.draw
+        }
+        if(enemyPaper) {
+          enemyPts += enemy[enemyHand] + match.draw
+          playerPts += player.Y + match.draw
+        }
+        if(enemyScissors) {
+          enemyPts += enemy[enemyHand] + match.draw
+          playerPts += player.Z + match.draw
+        }
+        break
+      default:
+        console.log('lul')
+    }
+  }
+
   rounds.forEach(round => {
     const [enemyHand, playerHand] = round.split(' ')
-    enemyPts += enemy[enemyHand]
-    playerPts += player[playerHand]
-    if(enemy[enemyHand] === player[playerHand]) {
-      console.log('draw')
-      enemyPts += match.draw
-      playerPts += match.draw
-    } else {
-      const enemyRock = types.rock.includes(enemyHand)
-      const playerRock = types.rock.includes(playerHand)
-      const enemyPaper = types.paper.includes(enemyHand)
-      const playerPaper = types.paper.includes(playerHand)
-      const enemyScissors = types.scissors.includes(enemyHand)
-      const playerScissors = types.scissors.includes(playerHand)
-      if(enemyRock && !playerPaper) enemyPts += match.win
-      if(enemyPaper && !playerScissors) enemyPts += match.win
-      if(enemyScissors && !playerRock) enemyPts += match.win
-      if(playerRock && !enemyPaper) playerPts += match.win
-      if(playerPaper && !enemyScissors) playerPts += match.win
-      if(playerScissors && !enemyRock) playerPts += match.win
+    switch (enemyHand) {
+      case 'A':
+        console.log('enemy rock')
+        figurePlayerHand(playerHand, enemyHand)
+        break
+      case 'B':
+        console.log('enemy paper')
+        figurePlayerHand(playerHand, enemyHand)
+        break
+      case 'C':
+        console.log('enemy scissors')
+        figurePlayerHand(playerHand, enemyHand)
+        break
+      default:
+        console.log('lul')
     }
   })
   console.log(`playerPts: ${playerPts}`)
   console.log(`enemyPts: ${enemyPts}`)
 }
 
-day2()
+day1()
