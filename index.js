@@ -143,4 +143,28 @@ const day2 = () => {
   console.log(`enemyPts: ${enemyPts}`)
 }
 
-day1()
+const day3 = () => {
+  const data = getInput(3)
+  const contents = data.split('\r\n')
+  const isCapital = (ch) => ch.charCodeAt() >= 65 && ch.charCodeAt() <= 90
+  const charValue = (ch) => {
+    const ascStart = isCapital(ch) ? 65 : 97
+    for(let i = 0; i < 26; i++) {
+      const code = String.fromCharCode(ascStart + i)
+      if (ch === code) return isCapital(ch) ? 27 + i : i + 1
+    }
+  }
+  const values = []
+  contents.forEach((content) => {
+    const a = [...content.slice(0, content.length / 2)]
+    const b = [...content.slice(content.length / 2)]
+    const commonLetters = a.filter(e => b.includes(e)).slice(0, 1)
+    commonLetters.forEach((letters) => {
+      values.push(charValue(letters[0]))
+    })
+  })
+  const sum = values.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+  console.log(sum)
+}
+
+day3()
