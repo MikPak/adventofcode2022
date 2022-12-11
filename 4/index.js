@@ -18,8 +18,7 @@ const day4 = () => {
     const pair1 = printRange(pair1Range[0], pair1Range[1])
     const pair2 = printRange(pair2Range[0], pair2Range[1])
     const common = pair1.filter(i => pair2.includes(i))
-    if(common.toString() === pair1.toString() 
-      || common.toString() === pair2.toString()) count++
+    if(common.length > 0) count++
   })
   console.log(`count: ${count}`)
 }
